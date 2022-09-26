@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="stylesheet.css" />
+  <title>Cloud Computing</title>
+
+</head>
+
+<body>
+	<div class="video">
+	<video controls autoplay width="640" height="480">
+		<source src="Módulo 4_Cloud Computing.mp4" type="video/mp4" />
+	</video>
+</div>
+    <div class="preguntasportema"> 
+<fieldset>
+	<legend>Cuestionario Cloud Computing</legend>
+	<div id="test">
+		<div class="cuestion">1. Una caracter&iacute;stica del Cloud Computing corresponde a:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="0" value="a">&nbsp;a : Doble factor de autenticaci&oacute;n.&nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="b">&nbsp;b : Bloqueo de cuenta.&nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="c">&nbsp;c : Acceso desde la red.&nbsp;</label>
+		</div>
+		<div class="cuestion">2. La definici&oacute;n de Cloud Computing corresponde a:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="1" value="a">&nbsp;a : Modelo de computaci&oacute;n que permite al proveedor tecnol&oacute;gico ofrecer servicios inform&aacute;ticos a trav&eacute;s de internet.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="b">&nbsp;b : En el control de acceso, datos que autentican la identidad de un cliente o un servicio y, junto con una clave de cifrado temporal (una clave de sesi&oacute;n), forman una credencial.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="c">&nbsp;c : La capacidad de dos o m&aacute;s sistemas o componentes para intercambiar informaci&oacute;n y utilizar la informaci&oacute;n que se ha intercambiado.&nbsp;</label>
+		</div>
+		<div class="cuestion">3. “Se entrega el software dentro de sus instalaciones para el uso a trav&eacute;s de internet siempre que lo demande el usuario”. El enunciado anterior hace referencia a la opci&oacute;n de contrataci&oacute;n denominada:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="2" value="a">&nbsp;a : Software como servicio.&nbsp;</label>
+			<label>
+				<input type="radio" name="2" value="b">&nbsp;b : Plataforma como servicio.&nbsp;</label>
+			<label>
+				<input type="radio" name="2" value="c">&nbsp;c : Infraestructura como servicio.&nbsp;</label>
+		</div>
+	</div>
+	<button id="boton">Mostrar resultado</button>
+	<div id="resultado">
+		<br>
+	</div>
+	<script>
+		const contenedor = document.getElementById("test");
+		const botonRes = document.getElementById("boton");
+		const resultadoTest = document.getElementById("resultado");
+
+		const preguntas = [
+			{
+				pregunta: "1. Una característica del Cloud Computing corresponde a:",
+				respuestas:
+				{
+					a: "Doble factor de autenticación.",
+					b: "Bloqueo de cuenta.",
+					c: "Acceso desde la red.",
+				},
+				respuestaCorrecta: "c",
+			},
+			{
+				pregunta: "2. La definición de Cloud Computing corresponde a:",
+				respuestas:
+				{
+					a: "Modelo de computación que permite al proveedor tecnológico ofrecer servicios informáticos a través de internet.",
+					b: "En el control de acceso, datos que autentican la identidad de un cliente o un servicio y, junto con una clave de cifrado temporal (una clave de sesión), forman una credencial.",
+					c: "La capacidad de dos o más sistemas o componentes para intercambiar información y utilizar la información que se ha intercambiado.",
+				},
+				respuestaCorrecta: "a",
+			},
+			{
+				pregunta: "3.“Se entrega el software dentro de sus instalaciones para el uso a través de internet siempre que lo demande el usuario”. El enunciado anterior hace referencia a la opción de contratación denominada:",
+				respuestas:
+				{
+					a: "Software como servicio.",
+					b: "Plataforma como servicio.",
+					c: "Infraestructura como servicio.",
+				},
+				respuestaCorrecta: "a",
+			},
+
+		];
+
+		function mostrarTest()
+		{
+			const preguntasYrespuestas = [];
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+
+				const respuestas = [];
+
+				for (letraRespuesta in preguntaActual.respuestas)
+				{
+
+					respuestas.push(
+
+						`
+        <label>
+                  <input type="radio" name="${numeroDePregunta}" value="${letraRespuesta}" />
+                  ${letraRespuesta} : ${preguntaActual.respuestas[letraRespuesta]} <br>
+              </label>` 
+					);
+                   
+				}
+
+				preguntasYrespuestas.push(
+					`
+      <div class="cuestion">${preguntaActual.pregunta}</div>
+      
+          <div class="respuestas"> ${respuestas.join("")} </div>
+          `
+				);
+			});
+
+			contenedor.innerHTML = preguntasYrespuestas.join("");
+		}
+
+		mostrarTest();
+
+		function mostrarResultado()
+		{
+			const respuestas = contenedor.querySelectorAll(".respuestas");
+			let respuestasCorrectas = 0;
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+				const todasLasRespuestas = respuestas[numeroDePregunta];
+				const checkboxRespuestas = `input[name='${numeroDePregunta}']:checked`;
+				const respuestaElegida = (
+					todasLasRespuestas.querySelector(checkboxRespuestas) ||
+					{}
+				).value;
+
+				if (respuestaElegida === preguntaActual.respuestaCorrecta)
+				{
+					respuestasCorrectas++;
+
+					respuestas[numeroDePregunta].style.color = "blue";
+				}
+				else
+				{
+					respuestas[numeroDePregunta].style.color = "red";
+				}
+			});
+
+			resultadoTest.innerHTML =
+				"Usted ha acertado " +
+				respuestasCorrectas +
+				" preguntas de un total de " +
+				preguntas.length;
+		}
+
+		botonRes.addEventListener("click", mostrarResultado);
+
+	</script>
+       </div>
+
+</fieldset>
+</body>
+</html>
